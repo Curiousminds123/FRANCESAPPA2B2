@@ -75,21 +75,30 @@
       const v = speechSynthesis.getVoices();
       frVoice = v.find(x => /^fr[-_]FR$/i.test(x.lang)) || null;
       const status = $("#voiceStatus");
-      if (status) status.textContent = frVoice ? `Voz francesa de Francia activa: ${frVoice.name} (${frVoice.lang}).` : "Este dispositivo no anuncia una voz fr-FR instalada. La app solicita francés de Francia; instala una voz francesa (Francia) en los ajustes del sistema para garantizar ese acento.";
+      if (status) status.textContent = frVoice
+        ? `Voz francesa de Francia activa: ${frVoice.name} (${frVoice.lang}).`
+        : "No hay una voz fr-FR instalada. La app seguirá intentando reproducir el audio con el idioma francés de Francia; el acento dependerá de las voces disponibles en tu dispositivo.";
     } catch (e) {}
   }
   try { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {}
   function say(t, rate) {
-    try {
-      if (!frVoice) pickVoice();
-      if (!frVoice) { toast("Para oír el acento de Francia, instala una voz fr-FR en la configuración de voz de tu dispositivo."); return; }
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(String(t).replace(/_+/g, " ").replace(/\s+/g, " "));
-      u.lang = "fr-FR";
-      if (frVoice) u.voice = frVoice;
-      u.rate = rate || (S.slow ? 0.75 : 0.95);
-      speechSynthesis.speak(u);
-    } catch (e) {}
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+      toast("Este navegador no admite audio de voz. Prueba con Chrome o Edge actualizado.");
+      return;
+    }
+    if (!frVoice) pickVoice();
+    speechSynthesis.cancel();
+    speechSynthesis.resume();
+    const u = new SpeechSynthesisUtterance(String(t).replace(/_+/g, " ").replace(/\s+/g, " "));
+    u.lang = "fr-FR";
+    if (frVoice) u.voice = frVoice;
+    u.rate = rate || (S.slow ? 0.75 : 0.95);
+    u.onerror = event => {
+      if (event.error !== "canceled" && event.error !== "interrupted") {
+        toast(`No se pudo reproducir el audio (${event.error}). Comprueba la configuración de voz del dispositivo.`);
+      }
+    };
+    speechSynthesis.speak(u);
   }
   const stopSay = () => { try { speechSynthesis.cancel(); } catch (e) {} };
 
@@ -745,8 +754,8 @@
     main().innerHTML = `<h1>⚙️ Ajustes</h1>
       <div class="card"><h2>Modo de estudio</h2>${modeCards(S.mode)}
       <p class="muted">Consejo para profes: comparte el enlace con <b>?modo=abierto</b> o <b>?modo=progresivo</b> al final para fijar el modo.</p></div>
-      <div class="card"><h2>Audio · francés de Francia</h2><p id="voiceStatus" class="voice-status" aria-live="polite">Comprobando las voces fr-FR disponibles en este dispositivo…</p><label><input type="checkbox" id="slow" ${S.slow ? "checked" : ""}> Voz lenta (acento francés de Francia)</label>
-      <div class="row"><button class="btn sec small" id="test">🔊 Probar voz de Francia</button></div><p class="muted">Todos los audios de la app solicitan la configuración fr-FR. La voz concreta disponible depende de las voces instaladas en el navegador y el sistema operativo.</p></div>
+      <div class="card"><h2>Audio · francés de Francia</h2><p id="voiceStatus" class="voice-status" aria-live="polite">Comprobando las voces fr-FR disponibles en este dispositivo…</p><label><input type="checkbox" id="slow" ${S.slow ? "checked" : ""}> Voz lenta</label>
+      <div class="row"><button class="btn sec small" id="test">🔊 Probar audio</button></div><p class="muted">La app solicita fr-FR y selecciona una voz francesa de Francia si está instalada. Sin ella, intentará usar la voz que el dispositivo asigne al idioma; instala una voz francesa (Francia) en los ajustes del sistema para asegurar ese acento.</p></div>
       <div class="card"><h2>Progreso</h2><p class="muted">El progreso se guarda en este navegador.</p>
       <div class="row"><button class="btn sec small" id="exp">⬇️ Exportar progreso</button><button class="btn sec small" id="imp">⬆️ Importar progreso</button><button class="btn red small" id="reset">🗑️ Reiniciar todo</button></div></div>
       <div class="card"><h2>Cómo funciona</h2><p>Cada módulo tiene 5 partes: <b>📘 Teoría</b>, <b>🖼️ Vocabulario</b> con tarjetas, <b>🎯 Ejercicios</b> (5 vidas ❤️), <b>📖 Lectura</b> con preguntas y <b>🗣️ Conversación</b> con tarjetas para responder en voz alta. Un módulo se completa al aprobar los ejercicios. Cada nivel termina con un <b>🏆 examen</b>.</p></div>`;

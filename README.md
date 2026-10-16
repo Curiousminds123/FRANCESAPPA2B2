@@ -20,7 +20,7 @@ Curso interactivo de francés para hispanohablantes. Incluye **53 módulos**: oc
 - **Lectura** en contexto con audio y preguntas de comprensión.
 - **Conversación** con propuestas para responder en voz alta y reconocimiento de voz compatible con Chrome y Edge.
 - **Progreso**, XP, racha diaria y examen de 20 preguntas por nivel. El aprobado es del 70 %.
-- **Audio** configurado para francés de Francia (`fr-FR`) en frases, vocabulario, práctica y conjugaciones. La app solo reproduce audio cuando el dispositivo tiene una voz francesa `fr-FR`; así evita cambiar silenciosamente a un acento distinto. Si no aparece una voz de Francia, instala una en los ajustes de voz del sistema.
+- **Audio** solicita francés de Francia (`fr-FR`) en frases, vocabulario, práctica y conjugaciones, y selecciona una voz `fr-FR` instalada cuando está disponible. Si el dispositivo no tiene esa voz, intenta reproducir con el motor de voz del sistema; para garantizar el acento de Francia, instala una voz francesa `fr-FR` en los ajustes de voz del sistema.
 
 Puedes estudiar con acceso libre o desbloquear niveles y módulos de forma progresiva. El progreso se conserva en el almacenamiento local del navegador; no hay cuentas ni servidor.
 
