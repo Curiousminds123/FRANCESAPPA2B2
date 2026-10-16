@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Français en route · A2–C1</title>
+  <meta name="description" content="Curso interactivo de francés A2-C1 para hispanohablantes: gramática, vocabulario, ejercicios, lectura y conversación.">
+  <meta name="theme-color" content="#176b87">
+  <meta property="og:title" content="Français en route · A2–C1">
+  <meta property="og:description" content="Aprende francés paso a paso con teoría clara, vocabulario y práctica interactiva.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=5">
+</head>
+<body>
+  <header class="top">
+    <button class="menu" id="menuBtn" aria-label="Menú">☰</button>
+    <button class="brand" onclick="App.home()" aria-label="Inicio"><img src="assets/img/logo.svg" alt=""><span>Français en route</span></button>
+    <button class="mode-pill" id="modePill" onclick="App.chooseMode()"></button>
+    <span class="stat" title="Racha de días / Day streak">🔥 <b id="st">0</b></span>
+    <span class="stat" title="Puntos de experiencia">⭐ <b id="xp">0</b> <span class="lbl">XP</span></span>
+  </header>
+  <div class="creator-banner"><span aria-hidden="true">✦</span> App creada por Ana H. Iranzo (asistida con IA)</div>
+  <div class="app">
+    <nav id="nav" aria-label="Módulos"></nav>
+    <main id="main"></main>
+  </div>
+  <footer class="creator-footer">
+    <span>Français en route · A2–C1</span>
+    <strong>App creada por Ana H. Iranzo (asistida con IA)</strong>
+  </footer>
+  <noscript><p style="padding:20px">Activa JavaScript para usar Français en route.</p></noscript>
+
+  <!-- Contenidos de francés por nivel -->
+  <script src="data/levels.js"></script>
+  <script src="data/francais.js?v=2"></script>
+  <script src="data/conjugator.js?v=2"></script>
+  <!-- Aplicación -->
+  <script src="js/app.js?v=6"></script>
+</body>
+</html>
